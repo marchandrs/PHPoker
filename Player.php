@@ -12,7 +12,9 @@ namespace PHPoker;
 class Player {
 
     public $name;
+    public $email;
+    public $password;
     public $hand; // stores the players cards
-    public $conn; //connection to player
+    public $conn; // player's connection
 
 } 

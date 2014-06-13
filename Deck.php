@@ -11,36 +11,18 @@ namespace PHPoker;
 
 class Deck {
 
-    public $cards;
-    private $initialShuffledCards; //to be logged
+    const CARDS_PER_SUIT_COUNT = 13;
+
+    public $cards = array();
+    private $initialShuffledCards; // shuffled cards, log util
 
     public function __construct($seedToShuffle) {
-        for($i = 0; $i < 4; $i++)
-        {
-            for($j = 0; $j < 13; $j++)
-            {
-                $card = new Card();
-                switch($i)
-                {
-                    case 0:
-                        $card->nype = "Clubs";
-                        break;
-                    case 1:
-                        $card->nype = "Hearts";
-                        break;
-                    case 2:
-                        $card->nype = "Spades";
-                        break;
-                    case 3:
-                        $card->nype = "Diamonds";
-                        break;
-                }
-                $card->value = $j+2;
-                $this->cards[13*$i+$j] = $card;
-            }
-        }
-        $this->randomize($seedToShuffle);
-        $this->initialShuffledCards = $this->cards; //copies the randomized cards to the other array
+        array_merge($this->cards, $this->getCardsFromSuit(Suit::CLUBS_SUIT));
+        array_merge($this->cards, $this->getCardsFromSuit(Suit::DIAMONDS_SUIT));
+        array_merge($this->cards, $this->getCardsFromSuit(Suit::HEARTS_SUIT));
+        array_merge($this->cards, $this->getCardsFromSuit(Suit::SPADES_SUIT));
+        $this->randomize($seedToShuffle, 100);
+        $this->initialShuffledCards = $this->cards; // copies the randomized cards to other array
     }
 
     public function getFirstCard()
@@ -48,13 +30,25 @@ class Deck {
         return array_shift($this->cards);
     }
 
-    private function randomize($value)
+    private function randomize($randomSeed, $timesToShuffle)
     {
-        $actual_time = microtime(true); //gets the actual time as float
-        $avg = ($actual_time + $value)/2;
-        $seed = ($value + $actual_time*$avg)/$avg;
-        srand($seed);
-        shuffle($this->cards);
+        for ($i = 0; $i <= $timesToShuffle; $i++) {
+            $actual_time = microtime(true); //gets the actual time as float
+            $avg = ($actual_time + $randomSeed)/2;
+            $seed = ($randomSeed + $actual_time*$avg)/$avg;
+            srand($seed);
+            shuffle($this->cards);
+        }
+    }
+
+    private function getCardsFromSuit($suit){
+        for($i = 0; $i < Deck::CARDS_PER_SUIT_COUNT; $i++){
+            $card = new Card();
+            $card->suit = Suit::getSuitName($suit);
+            $card->value = $i + 2; //Poker card value starts with 2
+            $cards[] = $card;
+        }
+        return $cards;
     }
 
 } 

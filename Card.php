@@ -10,8 +10,6 @@ namespace PHPoker;
 
 
 class Card {
-
-    public $nype;
+    public $suit;
     public $value;
-
 } 

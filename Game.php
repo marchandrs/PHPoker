@@ -11,5 +11,26 @@ namespace PHPoker;
 
 class Game {
 
+    public $randomSeed;
+
+    public $players;
+    public $deck;
+    public $dealer;
+    public $table;
+
+    public function newGame(){
+        $this->dealer = new Dealer($this);
+        $this->table = new Table();
+    }
+
+    public function addPlayer($player){
+        $this->players[] = $player;
+    }
+
+    public function newRound(){
+        $this->deck = new Deck();
+        $this->dealer->ShuffleDeck($this->randomSeed); // TO DO: Dealer should shuffle cards
+        $this->dealer->distributeCards();
+    }
 
 } 
