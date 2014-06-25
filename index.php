@@ -5,14 +5,12 @@
  * Date: 10/06/14
  * Time: 23:21
  */
-    require_once "Table.php";
-    require_once "Game.php";
-    require_once "Dealer.php";
-    require_once "Player.php";
-    require_once "Suit.php";
-    require_once "Deck.php";
-    require_once "Card.php";
 
+/*
+ *  VAR_DUMP FILE, DEV TEST STUFF GOES HERE
+ */
+	
+	require 'vendor\autoload.php';
 
     $game = new \PHPoker\Game();
     $game->newGame();
